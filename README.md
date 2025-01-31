@@ -16,6 +16,9 @@
 
 3. context-aware-icl-o1.ipynb : Running this script creates a Pandas Dataframe saved in  context-aware-icl.pkl, saving the best performing context and its responses.
 
+### Checking Results
+
+If you want to checkout the results of attack after running it on FreshQA dataset, the results dataframes are uplaoded in the results folder as pickle file.
 
 ### Coming Soon
 Scripts to run attack on DeepSeek and script for large scale experiments

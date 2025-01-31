@@ -18,7 +18,7 @@
 
 ### Checking Results
 
-If you want to checkout the results of attack after running it on FreshQA dataset, the results dataframes are uplaoded in the results folder as pickle file.
+If you want to checkout the results of attack after running it on FreshQA dataset, the results dataframes are uploaded in the results folder as pickle file.
 
 ### Coming Soon
 Scripts to run attack on DeepSeek and script for large scale experiments

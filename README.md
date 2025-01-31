@@ -18,4 +18,4 @@
 
 
 ### Coming Soon
-More scripts to run on DeepSeek and script for large scale experiments
+Scripts to run attack on DeepSeek and script for large scale experiments

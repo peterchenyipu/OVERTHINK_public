@@ -143,12 +143,9 @@ def run_command(prompt, model, reasoning_effort='low'):
 
     elif model == 'deepseek':
         print(f'prompt: {prompt}', )
-        deepseek_api_key = ""
-        client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
-
         # Round 1
         messages = [{"role": "user", "content": prompt}]
-        response = client.chat.completions.create(
+        response = deepseek_client.chat.completions.create(
             model="deepseek-reasoner",
             messages=messages,
             max_tokens=8192

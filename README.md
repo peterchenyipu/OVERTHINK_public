@@ -1,24 +1,45 @@
-# OVERTHINK_public
+# 🤯 Overthinking: Slowdown Attacks on Reasoning LLMs
 
-## These are jupyter notebook that allows you to reproduce are results on o1. For every test, add your openAI key in the notebook
+## 💡 Introduction 
+This is an official repository of our paper "*Overthinking: Slowdown Attacks on Reasoning LLMs*". In this attack, we aim to increase the number of reasoning tokens without manipulating the generated output. Please follow the steps below to test our **Overthinking** attack.
 
-### Context Agnostic
+## 📝 Note 
+* To conduct ICL-Geetic Context-Agnostic or ICL-Genetic Context-Aware attack, first complete the attack without ICL-Genetic to create the pickle files.
+* We generated the pickle files in the `/pickle` folder for your in advance for conveniance.
+* Since our attack only utilizies APIs from OpenAI's o1, o1-mini and DeepSeek-R1, it does not require any CUDA environment. Feel free to run the attack in your local environment.
 
-1. context-agnostic-o1.ipynb : Running this script creates a Pandas Dataframe saved in  context-agnostic.pkl. Columns "attack_response_1" to "attack_response_4" are handwritten samples. Rest are LLM generated variants used as intial population for ICL-Genetic.
+## 1. Prerequisites ✅
+All experiments were done on `python==3.9.21` version. Use the following command to setup a conda environment and download required pacakages.
+```
+conda create -n overthink python==3.9.21 -y
+conda activate overthink
+pip install -r requirements.txt
+```
 
-2. context-agnostic-icl-o1.ipynb : Running this script creates a Pandas Dataframe saved in  context-agnostic-icl.pkl, saving the best performing context and its responses.
+## 2. Overthinking Attack ☠️
+#### Before running the attack, make sure to complete the following steps to be able to run our attack:
 
-### Context Aware
+### a. API keys 📍
+In the `utils.py` file, either fill in the OpenAI (`openai_api_key`), official DeepSeek API (`deepseek_api_key`), or DeepSeek Firework AI API (`deepseek_firework_api_key`) depending on your preference. *(The reason why we have two different APIs for the DeepSeek-R1 model is because official DeepSeek API faced a malicious attack, which caused an error in terms of generation*. 
 
-1. create_context_json.py : This script needs to be run first as this generates the context dependant template for the first 5 samples in freshQA.
+### b. Hyperparameters 🛠
+Edit the following parameters in the `main.sh` bash file:
+```
+#################################
+# Set model and num_samples
+ATTACK="context_agnostic"      # context_agnostic, context_aware, heuristic_context_agnostic, heuristic_context_aware
+MODEL="deepseek_firework"      # o1, o1-mini, deepseek, deepseek_firework
+ATTACK_CONTEXT_MODEL="o1-mini" # o1, o1-mini, deepseek, deepseek_firework
+NUM_SAMPLES=5
+NUM_SHORTS=None
+RUN=1
+REASONING_EFFORT=None
+#################################
+```
 
-2. context-aware-o1.ipynb : Running this script creates a Pandas Dataframe saved in  context-aware.pkl. Columns "attack_response_1" is handwritten sample. Rest are LLM generated variants used as intial population for ICL-Genetic.
-
-3. context-aware-icl-o1.ipynb : Running this script creates a Pandas Dataframe saved in  context-aware-icl.pkl, saving the best performing context and its responses.
-
-### Checking Results
-
-If you want to checkout the results of attack after running it on FreshQA dataset, the results dataframes are uploaded in the results folder as pickle file.
-
-### Coming Soon
-Scripts to run attack on DeepSeek and script for large scale experiments
+### d. Run Attack 🏃‍♂️‍➡️
+Run the following command the test our attack:
+```
+chmod +x main.sh
+./main.sh
+```

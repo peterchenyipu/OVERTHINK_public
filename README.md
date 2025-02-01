@@ -1,8 +1,9 @@
 # OVERTHINK_public
 
-## These are jupyter notebook that allows you to reproduce are results on o1. For every test, add your openAI key in the notebook
+This is an official repository of the paper *Overthinking: Slowdown Attacks on Reasoning LLMs*. 
 
 ### Context Agnostic
+* These are jupyter notebook that allows you to reproduce are results on o1. For every test, add your openAI key in the notebook
 
 1. `context-agnostic-o1.ipynb` : Running this script creates a Pandas Dataframe saved in  context-agnostic.pkl. Columns "attack_response_1" to "attack_response_4" are handwritten samples. Rest are LLM generated variants used as intial population for ICL-Genetic.
 

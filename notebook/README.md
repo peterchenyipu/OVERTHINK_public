@@ -1,7 +1,12 @@
-Here are jupyter notebook files you can test attacks on context-agnostic, context-agnostic-icl, context-aware, and context-aware-o1.
+**Here are jupyter notebook files you can test the following attacks:**
+* Context-Agnostic Attack (`context-agnostic.ipynb`)
+* context-agnostic-icl (`context-agnostic-icl-o1.ipynb`)
+* context-aware (`context-aware-o1.ipynb`)
+* context-aware-icl (`context-aware-icl-o1.ipynb`)
+
+For every test, add your openAI key in the notebook. The details of each notebook are as follows:
 
 ### Context Agnostic
-* These are jupyter notebook that allows you to reproduce are results on o1. For every test, add your openAI key in the notebook
 
 1. `context-agnostic-o1.ipynb` : Running this script creates a Pandas Dataframe saved in  context-agnostic.pkl. Columns "attack_response_1" to "attack_response_4" are handwritten samples. Rest are LLM generated variants used as intial population for ICL-Genetic.
 
@@ -16,5 +21,4 @@ Here are jupyter notebook files you can test attacks on context-agnostic, contex
 3. `context-aware-icl-o1.ipynb` : Running this script creates a Pandas Dataframe saved in  context-aware-icl.pkl, saving the best performing context and its responses.
 
 ### Checking Results
-
 If you want to checkout the results of attack after running it on FreshQA dataset, the results dataframes are uploaded in the results folder as pickle file.

@@ -1,7 +1,7 @@
-# 🤯 Overthinking: Slowdown Attacks on Reasoning LLMs
+# 🤯 OverThink: Slowdown Attacks on Reasoning LLMs
 
 ## 💡 Introduction 
-This is an official repository of our paper "*Overthinking: Slowdown Attacks on Reasoning LLMs*". In this attack, we aim to increase the number of reasoning tokens without manipulating the generated output. Please follow the steps below to test our **Overthinking** attack.
+This is an official repository of our paper "*OverThink: Slowdown Attacks on Reasoning LLMs*". In this attack, we aim to increase the number of reasoning tokens without manipulating the generated output. Please follow the steps below to test our **Overthinking** attack.
 
 ## 📝 Note 
 * To conduct ICL-Geetic Context-Agnostic or ICL-Genetic Context-Aware attack, first complete the attack without ICL-Genetic to create the pickle files.

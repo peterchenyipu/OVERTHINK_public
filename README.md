@@ -1,6 +1,6 @@
 # OVERTHINK_public
 
-This is an official repository of the paper *Overthinking: Slowdown Attacks on Reasoning LLMs*. 
+This is an official repository of the paper "*Overthinking: Slowdown Attacks on Reasoning LLMs*". All experiments were done on `python==3.9.21` version.
 
 ### Context Agnostic
 * These are jupyter notebook that allows you to reproduce are results on o1. For every test, add your openAI key in the notebook

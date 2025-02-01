@@ -1,4 +1,4 @@
-# Overthinking: Slowdown Attacks on Reasoning LLMs
+# 🤯 Overthinking: Slowdown Attacks on Reasoning LLMs
 
 ## 💡 Introduction 
 This is an official repository of our paper "*Overthinking: Slowdown Attacks on Reasoning LLMs*". In this attack, we aim to increase the number of reasoning tokens without manipulating the generated output. Please follow the steps below to test our **Overthinking** attack.
@@ -8,7 +8,7 @@ This is an official repository of our paper "*Overthinking: Slowdown Attacks on 
 * We generated the pickle files in the `/pickle` folder for your in advance for conveniance.
 * Since our attack only utilizies APIs from OpenAI's o1, o1-mini and DeepSeek-R1, it does not require any CUDA environment. Feel free to run the attack in your local environment.
 
-## ✅ 1. Prerequisites 
+## 1. Prerequisites ✅
 All experiments were done on `python==3.9.21` version. Use the following command to setup a conda environment and download required pacakages.
 ```
 conda create -n overthink python==3.9.21 -y
@@ -16,7 +16,7 @@ conda activate overthink
 pip install -r requirements.txt
 ```
 
-## 🤯 2. Overthinking Attack 
+## 2. Overthinking Attack ☠️
 #### Before running the attack, make sure to complete the following steps to be able to run our attack:
 
 ### a. API keys 📍

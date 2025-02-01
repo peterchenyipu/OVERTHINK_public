@@ -1,8 +1,8 @@
 **Here are jupyter notebook files you can test the following attacks:**
 * Context-Agnostic Attack (`context-agnostic.ipynb`)
-* context-agnostic-icl (`context-agnostic-icl-o1.ipynb`)
-* context-aware (`context-aware-o1.ipynb`)
-* context-aware-icl (`context-aware-icl-o1.ipynb`)
+* Context-Agnostic-ICL Attack (`context-agnostic-icl-o1.ipynb`)
+* Context-Aaware Attack (`context-aware-o1.ipynb`)
+* Context-Aware-ICL Attack (`context-aware-icl-o1.ipynb`)
 
 For every test, add your openAI key in the notebook. The details of each notebook are as follows:
 

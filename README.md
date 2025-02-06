@@ -6,8 +6,8 @@ This is an official repository of our paper "*OverThink: Slowdown Attacks on Rea
 Please follow the steps below to test our **OverThink** attack.
 
 ## 📝 Note 
-* To conduct ICL-Geetic Context-Agnostic or ICL-Genetic Context-Aware attack, first complete the attack without ICL-Genetic to create the pickle files.
-* We generated the pickle files in the `/pickle` folder in advance for conveniance.
+* To conduct ICL-Genetic Context-Agnostic or ICL-Genetic Context-Aware attack, first complete the attack without ICL-Genetic to create the pickle files.
+* We generated the pickle files in the `/pickle` folder in advance for convenience.
 * Since our attack only utilizies APIs from OpenAI's o1, o1-mini and DeepSeek-R1, it does not require any CUDA environment. Feel free to run the attack in your local environment.
 
 ## 1. Prerequisites ✅

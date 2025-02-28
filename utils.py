@@ -143,7 +143,6 @@ def run_command(prompt, model, reasoning_effort='low'):
 
     elif model == 'deepseek':
         print(f'prompt: {prompt}', )
-        deepseek_api_key = "sk-0db1cc3952f14c05a137ce61e6a4dd0a"
         client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
 
         # Round 1

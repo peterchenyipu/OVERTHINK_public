@@ -39,7 +39,7 @@ RUN=1
 REASONING_EFFORT=None
 #################################
 ```
-The "heuristic_context_agnostic" hyperparamter conducts ICL-genetic-context-agnostic attack and "heuristic_context_aware" conduct heuristic-context-aware attack.
+The "heuristic_context_agnostic" hyperparamter conducts ICL-genetic Context-Agnostic attack and "heuristic_context_aware" conducts ICL-Genetic Context-Aware attack.
 
 ### d. Run Attack 🏃‍♂️‍➡️
 Run the following command the test our attack:

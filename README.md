@@ -32,7 +32,7 @@ Edit the following parameters in the `main.sh` bash file:
 # Set model and num_samples
 ATTACK="context_agnostic"      # context_agnostic, context_aware, heuristic_context_agnostic, heuristic_context_aware
 MODEL="deepseek_firework"      # o1, o1-mini, o3-mini, deepseek, deepseek_firework
-ATTACK_CONTEXT_MODEL="o1-mini" # o1, o1-mini, o3-mini, deepseek, deepseek_firework
+ATTACK_CONTEXT_MODEL="o1" # o1, o1-mini, o3-mini, deepseek, deepseek_firework
 NUM_SAMPLES=5
 NUM_SHOTS=None
 RUN=1

@@ -9,6 +9,7 @@ Please follow the steps below to test our **OverThink** attack.
 * To conduct ICL-Genetic Context-Agnostic or ICL-Genetic Context-Aware attack, first complete the attack without ICL-Genetic to create the pickle files.
 * We generated the pickle files in the `/pickle` folder in advance for convenience.
 * Since our attack only utilizies APIs from OpenAI's o1, o1-mini and DeepSeek-R1, it does not require any CUDA environment. Feel free to run the attack in your local environment.
+* You can download the FreshQA dataset from https://github.com/freshllms/freshqa
 
 ## 1. Prerequisites ✅
 All experiments were done on `python==3.9.21` version. Use the following command to setup a conda environment and download required pacakages.
@@ -38,6 +39,7 @@ RUN=1
 REASONING_EFFORT=None
 #################################
 ```
+The "heuristic_context_agnostic" hyperparamter conducts ICL-genetic-context-agnostic attack and "heuristic_context_aware" conduct heuristic-context-aware attack.
 
 ### d. Run Attack 🏃‍♂️‍➡️
 Run the following command the test our attack:

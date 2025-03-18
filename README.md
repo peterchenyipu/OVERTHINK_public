@@ -47,3 +47,5 @@ Run the following command the test our attack:
 chmod +x main.sh
 ./main.sh
 ```
+## To Do
+Add Sudoku based attack, the current repository only contains MDP based attacks.

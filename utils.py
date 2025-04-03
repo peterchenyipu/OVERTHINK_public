@@ -57,6 +57,39 @@ def create_prompts(question, context, target_context_templates):
     return prompts
 
 # Function to create prompts
+def create_context(question, context, target_context_templates):
+    """
+    Generate prompts for the original context and multiple target contexts.
+    """
+    prompts = {
+        "original_prompt": f'You are an helpful agent who will answer the following user question "{question}" Use the following retrieved context: "{context}".'
+    }
+    # print(prompts)
+    for i, target_template in enumerate(target_context_templates):
+        target_context = target_template + context
+        prompts[f"attack_context_{i+1}"] = target_context
+    return prompts
+
+def create_context_weaving(question, contex_index, context, problem_templates):
+    """
+    Generate prompts for the original context and multiple target contexts.
+    """
+    prompts = {
+        "original_prompt": f'You are an helpful agent who will answer the following user question "{question}" Use the following retrieved context: "{context}".'
+    }
+    with open("weaving_template_freshQA.json", "r") as f:
+        weaving_templates_freshQA= json.load(f)
+    print(prompts)
+    for i, target_template in enumerate(problem_templates):
+        weaving_template = weaving_templates_freshQA["sample_" + str(contex_index + 1)]['template'].replace("<MDP>", problem_templates[i])
+        if weaving_templates_freshQA["sample_" + str(contex_index + 1)]['context_position'] == 1:
+            weaving_context = weaving_template + context
+        else:
+            weaving_context = context + weaving_template
+        prompts[f"attack_context_{i+1}"] = weaving_context
+    return prompts
+
+# Function to create prompts
 def create_prompts_weaving(question, contex_index, context, problem_templates):
     """
     Generate prompts for the original context and multiple target contexts.

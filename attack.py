@@ -75,7 +75,7 @@ def heuristic_genetic_context_agnostic(dataset, run_command_model, attack_contex
             if content:
                 contexts.append(content)
         context = " ".join(contexts)
-        prompts = create_prompts(question, context, target_context_templates)
+        prompts = create_context(question, context, target_context_templates)
 
         rewrite_attempts = []
         rewrite_score = []
@@ -226,7 +226,7 @@ def heuristic_genetic_context_aware(dataset, run_command_model, attack_context_m
             if content:
                 contexts.append(content)
         context = " ".join(contexts)
-        prompts = create_prompts_weaving(question,index, context, mdp_problem_templates)
+        prompts = create_context_weaving(question,index, context, mdp_problem_templates)
         #print(prompts["attack_context_1"])
         #break
         #original results

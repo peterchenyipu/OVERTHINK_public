@@ -207,7 +207,7 @@ def run_command(prompt, model, reasoning_effort='low'):
         # Round 1
         messages = [{"role": "user", "content": prompt}]
         response = client.chat.completions.create(
-            model="deepseek-reasoner",
+            model="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
             messages=messages,
             # max_tokens=8192
         )

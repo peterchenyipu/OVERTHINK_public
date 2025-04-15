@@ -200,7 +200,88 @@ def run_command(prompt, model, reasoning_effort='low'):
                 'output tokens': output_tokens,
                 'reasoning tokens':reasoning_tokens, 
                 "entire respose":response}
+    elif model == 'deepseek-vllm':
+        print(f'prompt: {prompt}', )
+        client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
 
+        # Round 1
+        messages = [{"role": "user", "content": prompt}]
+        response = client.chat.completions.create(
+            model="deepseek-reasoner",
+            messages=messages,
+            # max_tokens=8192
+        )
+
+        text = response.choices[0].message.content
+        reasoning_content = response.choices[0].message.reasoning_content
+        
+        reasoning_tokens = count_tokens(reasoning_content)
+        input_tokens = count_tokens(prompt)
+        output_tokens = count_tokens(text)
+
+        print("input_tokens: ", input_tokens)
+        print("output_tokens: ", output_tokens)
+        print("reasoning_tokens: ", reasoning_tokens)
+        
+        return {'text': text, 
+                'input tokens': input_tokens,
+                'output tokens': output_tokens,
+                'reasoning tokens':reasoning_tokens, 
+                "entire respose":response}
+    
+    elif model.startswith('deepseek-r1'):
+        print(f'prompt: {prompt}')
+        # exit()
+        client = OpenAI(api_key='ollama', base_url="http://localhost:11434/v1")
+
+        messages = [{"role": "user", "content": prompt}]
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+        )
+
+        text = response.choices[0].message.content
+
+        try:
+            # Attempt to extract reasoning and output content
+            reasoning_content = text.split('<think>')[1].split('</think>')[0].strip()
+            output_content = text.split('<think>')[1].split('</think>')[1].strip()
+
+            input_tokens = count_tokens(prompt)
+            reasoning_tokens = count_tokens(reasoning_content)
+            output_tokens = count_tokens(output_content)
+
+            print("input_tokens: ", input_tokens)
+            print("output_tokens: ", output_tokens)
+            print("reasoning_tokens: ", reasoning_tokens)
+
+            return {
+                'text': text,
+                'input tokens': input_tokens,
+                'output tokens': output_tokens,
+                'reasoning tokens': reasoning_tokens,
+                'entire response': response
+            }
+
+        except Exception as e:
+            print(f"[ERROR] Failed to extract <think> tags: {e}")
+
+            # Log failed prompt + response to file for later inspection
+            log_file = 'failed_prompts.txt'
+            with open(log_file, "a") as f:
+                f.write("=== FAILED PROMPT ===\n")
+                f.write(f"Prompt:\n{prompt}\n")
+                f.write(f"Response:\n{text}\n")
+                f.write(f"Error: {str(e)}\n\n")
+
+            return {
+                'text': text,
+                'input tokens': count_tokens(prompt),
+                'output tokens': None,
+                'reasoning tokens': None,
+                'entire response': response,
+                'error': str(e)
+            }
     else:
         print(f"reasoning effort: {reasoning_effort}")
         response = openai_client.chat.completions.create(

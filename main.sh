@@ -3,7 +3,7 @@
 ATTACK="context_agnostic" # context_agnostic, context_aware, heuristic_context_agnostic, heuristic_context_aware
 MODEL="gemini" # o1, o1-mini, deepseek, deepseek_firework
 ATTACK_CONTEXT_MODEL="gemini" # o1, o1-mini, deepseek, deepseek_firework
-NUM_SAMPLES=5
+NUM_SAMPLES=3
 NUM_SHOTS=None
 RUN=1
 REASONING_EFFORT=None

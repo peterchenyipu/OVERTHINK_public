@@ -102,7 +102,7 @@ if __name__ == '__main__':
         if attack_type == 'context_agnostic':
             output_file = os.path.join(pickle_folder, f"{attack_type}_defense={enable_defense}_{model}_num_samples_({num_samples})_runs_({idx}).pkl")
             filtered_samples = processed_samples.iloc[:num_samples].reset_index(drop=True)
-            processed_df = context_agnostic(filtered_samples, target_context_templates, reasoning_effort, model=model, output_file=output_file, enable_defense=enable_defense)
+            processed_df = context_agnostic(filtered_samples, target_context_templates[:5], reasoning_effort, model=model, output_file=output_file, enable_defense=enable_defense)
 
         elif attack_type == 'context_aware':
             output_file =os.path.join(pickle_folder,f"{attack_type}_{model}_num_samples_({num_samples})_runs_({idx}).pkl")

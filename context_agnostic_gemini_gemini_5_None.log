@@ -1,0 +1,10 @@
+**************************************************
+attack_type:  context_agnostic
+model:  gemini
+source_model:  None
+attack_context_model:  gemini
+num_samples:  5
+num_shots:  3
+runs:  1
+reasoning_effort:  None
+**************************************************

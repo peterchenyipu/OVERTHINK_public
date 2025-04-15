@@ -1,0 +1,1 @@
+CompletionUsage(completion_tokens=5911, prompt_tokens=22801, total_tokens=28712, completion_tokens_details=None, prompt_tokens_details=None)

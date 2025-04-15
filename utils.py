@@ -4,13 +4,20 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import re
-
+from dotenv import load_dotenv
+import os
+from google import genai
+load_dotenv()
+        
 openai_api_key = ""
 deepseek_api_key = ""
 deepseek_firework_api_key = ""
+gemini_api_key = os.getenv('GEMINI_TOKEN')
 
 openai_client = OpenAI(api_key=openai_api_key)
 deepseek_client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
+gemini_client = OpenAI(api_key=gemini_api_key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
+
 
 def extract_description(text, tag):
     # Use a regular expression to find the content between <DESCRIPTION></DESCRIPTION>
@@ -119,7 +126,14 @@ def count_tokens(text, model="gpt-3.5-turbo"):
     token_count = len(encoding.encode(text))
     return token_count
 
-
+def count_tokens_gemini(text):
+    client = genai.Client(api_key=gemini_api_key)
+    count = client.models.count_tokens(
+        model="gemini-2.5-pro-exp-03-25",
+        contents=text,
+    ).total_tokens
+    return count
+    
 def run_command(prompt, model, reasoning_effort='low'):
     # print('prompt: ', prompt)
     messages=[{"role": "user", "content": prompt}]
@@ -282,6 +296,30 @@ def run_command(prompt, model, reasoning_effort='low'):
                 'entire response': response,
                 'error': str(e)
             }
+    
+    elif model == 'gemini':
+        
+        response = gemini_client.chat.completions.create(
+            model="models/gemini-2.5-pro-exp-03-25",
+            n=1,
+            messages=messages
+        )
+        text = response.choices[0].message.content
+        total_output_tokens = response.usage.completion_tokens
+        input_tokens = response.usage.prompt_tokens
+        output_tokens = count_tokens_gemini(text)
+        reasoning_tokens = total_output_tokens - output_tokens
+        
+        print("input_tokens: ", input_tokens)
+        print("output_tokens: ", output_tokens)
+        print("reasoning_tokens: ", reasoning_tokens)
+
+        return {'text': text, 
+                'input tokens': input_tokens,
+                'output tokens': output_tokens,
+                'reasoning tokens':reasoning_tokens, 
+                "entire respose":response}
+    
     else:
         print(f"reasoning effort: {reasoning_effort}")
         response = openai_client.chat.completions.create(

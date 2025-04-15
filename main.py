@@ -64,6 +64,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_shots', type=int, default=3, help='only for ICL genetic')
     parser.add_argument('--runs', type=int, default=1, help='runs for round')
     parser.add_argument('--reasoning_effort', type=str, default='low', help='only for o1')
+    parser.add_argument('--enable_defense', action='store_true', help='enable defense')
     
     args = parser.parse_args()
     model = args.model
@@ -74,6 +75,7 @@ if __name__ == '__main__':
     num_shots = args.num_shots
     runs = args.runs
     reasoning_effort = args.reasoning_effort
+    enable_defense = args.enable_defense
 
     print("*"*50)
     print("attack_type: ", attack_type)
@@ -84,6 +86,8 @@ if __name__ == '__main__':
     print("num_shots: ", num_shots)
     print("runs: ", runs)
     print("reasoning_effort: ", reasoning_effort)
+    if enable_defense:
+        print('Enabling System Prompt Defense')
     print("*"*50)
     
     df = pd.read_csv("FreshQA_v12182024 - freshqa.csv")
@@ -96,9 +100,9 @@ if __name__ == '__main__':
     for idx, run in tqdm(enumerate(range(runs))):
 
         if attack_type == 'context_agnostic':
-            output_file = os.path.join(pickle_folder, f"{attack_type}_{model}_num_samples_({num_samples})_runs_({idx}).pkl")
+            output_file = os.path.join(pickle_folder, f"{attack_type}_defense={enable_defense}_{model}_num_samples_({num_samples})_runs_({idx}).pkl")
             filtered_samples = processed_samples.iloc[:num_samples].reset_index(drop=True)
-            processed_df = context_agnostic(filtered_samples, target_context_templates, reasoning_effort, model=model, output_file=output_file)
+            processed_df = context_agnostic(filtered_samples, target_context_templates, reasoning_effort, model=model, output_file=output_file, enable_defense=enable_defense)
 
         elif attack_type == 'context_aware':
             output_file =os.path.join(pickle_folder,f"{attack_type}_{model}_num_samples_({num_samples})_runs_({idx}).pkl")

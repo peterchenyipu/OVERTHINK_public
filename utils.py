@@ -1,4 +1,6 @@
 from openai import OpenAI
+import openai
+import time
 import tiktoken
 import requests
 import json
@@ -7,6 +9,8 @@ import re
 from dotenv import load_dotenv
 import os
 from google import genai
+from google.genai import types
+from google.genai.errors import ClientError
 load_dotenv()
         
 openai_api_key = ""
@@ -134,9 +138,12 @@ def count_tokens_gemini(text):
     ).total_tokens
     return count
     
-def run_command(prompt, model, reasoning_effort='low'):
+def run_command(prompt, model, reasoning_effort='low', system_prompt=None):
     # print('prompt: ', prompt)
-    messages=[{"role": "user", "content": prompt}]
+    if system_prompt is not None:
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": prompt}]
+    else:
+        messages=[{"role": "user", "content": prompt}]
 
     if model == "deepseek_firework":
         # Fireworks DeepSeek-R1 generation
@@ -298,27 +305,97 @@ def run_command(prompt, model, reasoning_effort='low'):
             }
     
     elif model == 'gemini':
-        
-        response = gemini_client.chat.completions.create(
-            model="models/gemini-2.5-pro-exp-03-25",
-            n=1,
-            messages=messages
-        )
-        text = response.choices[0].message.content
-        total_output_tokens = response.usage.completion_tokens
-        input_tokens = response.usage.prompt_tokens
-        output_tokens = count_tokens_gemini(text)
-        reasoning_tokens = total_output_tokens - output_tokens
-        
-        print("input_tokens: ", input_tokens)
-        print("output_tokens: ", output_tokens)
-        print("reasoning_tokens: ", reasoning_tokens)
+        # print(messages[0])
+        # exit()
+        wait_time = 60
+        while True:
+            try:
 
-        return {'text': text, 
-                'input tokens': input_tokens,
-                'output tokens': output_tokens,
-                'reasoning tokens':reasoning_tokens, 
-                "entire respose":response}
+                client = genai.Client(api_key=gemini_api_key)
+                
+                model = "gemini-2.5-pro-exp-03-25"
+                contents = [
+                    types.Content(
+                        role="user",
+                        parts=[
+                            types.Part.from_text(text=prompt),
+                        ],
+                    ),
+                ]
+
+                if system_prompt is not None:
+                    system_instruction = types.SystemInstruction(
+                        parts=[
+                            types.Part.from_text(text=system_prompt),
+                        ],
+                    )
+                else:
+                    system_instruction = None
+
+                generate_content_config = types.GenerateContentConfig(
+                    response_mime_type="text/plain",
+                    system_instruction=system_instruction
+                )
+
+                response = client.models.generate_content(
+                    model="gemini-2.5-pro-exp-03-25",  # or gemini-2.0-flash-thinking-exp
+                    contents=contents,
+                    config=generate_content_config,
+                )
+
+                text = response.text
+                total_output_tokens = response.usage_metadata.candidates_token_count
+                input_tokens = response.usage_metadata.prompt_token_count
+                reasoning_tokens = response.usage_metadata.thoughts_token_count
+                output_tokens = total_output_tokens - reasoning_tokens
+
+
+                # response = gemini_client.chat.completions.create(
+                #     model="models/gemini-2.5-pro-exp-03-25",
+                #     n=1,
+                #     messages=messages
+                # )
+                # text = response.choices[0].message.content
+                # total_output_tokens = response.usage.completion_tokens
+                # input_tokens = response.usage.prompt_tokens
+                # output_tokens = count_tokens_gemini(text)
+                # reasoning_tokens = total_output_tokens - output_tokens
+
+                print("input_tokens: ", input_tokens)
+                print("output_tokens: ", output_tokens)
+                print("reasoning_tokens: ", reasoning_tokens)
+
+                return {
+                    'text': text,
+                    'input tokens': input_tokens,
+                    'output tokens': output_tokens,
+                    'reasoning tokens': reasoning_tokens,
+                    "entire respose": response
+                }
+
+            except ClientError as e:
+                print(f"[ClientError] Retrying in {wait_time} seconds: {e}")
+                time.sleep(wait_time)
+        # response = gemini_client.chat.completions.create(
+        #     model="models/gemini-2.5-pro-exp-03-25",
+        #     n=1,
+        #     messages=messages
+        # )
+        # text = response.choices[0].message.content
+        # total_output_tokens = response.usage.completion_tokens
+        # input_tokens = response.usage.prompt_tokens
+        # output_tokens = count_tokens_gemini(text)
+        # reasoning_tokens = total_output_tokens - output_tokens
+        
+        # print("input_tokens: ", input_tokens)
+        # print("output_tokens: ", output_tokens)
+        # print("reasoning_tokens: ", reasoning_tokens)
+
+        # return {'text': text, 
+        #         'input tokens': input_tokens,
+        #         'output tokens': output_tokens,
+        #         'reasoning tokens':reasoning_tokens, 
+        #         "entire respose":response}
     
     else:
         print(f"reasoning effort: {reasoning_effort}")

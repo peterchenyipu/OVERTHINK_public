@@ -324,11 +324,9 @@ def run_command(prompt, model, reasoning_effort='low', system_prompt=None):
                 ]
 
                 if system_prompt is not None:
-                    system_instruction = types.SystemInstruction(
-                        parts=[
+                    system_instruction = [
                             types.Part.from_text(text=system_prompt),
-                        ],
-                    )
+                        ]
                 else:
                     system_instruction = None
 

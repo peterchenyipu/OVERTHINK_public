@@ -221,24 +221,28 @@ def run_command(prompt, model, reasoning_effort='low', system_prompt=None):
                 'output tokens': output_tokens,
                 'reasoning tokens':reasoning_tokens, 
                 "entire respose":response}
-    elif model == 'deepseek-vllm':
-        print(f'prompt: {prompt}', )
-        client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
+    elif model.startswith('deepseek-ai'): # vllm serving
+        # print(f'prompt: {prompt}', )
+        # print('Begin Asking')
+        model = model.replace('_', '/')
+        client = OpenAI(api_key="EMPTY", base_url="http://localhost:8008/v1")
 
-        # Round 1
-        messages = [{"role": "user", "content": prompt}]
         response = client.chat.completions.create(
-            model="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+            model=model,
             messages=messages,
             # max_tokens=8192
         )
+        # print("Got Response")
 
         text = response.choices[0].message.content
         reasoning_content = response.choices[0].message.reasoning_content
         
-        reasoning_tokens = count_tokens(reasoning_content)
-        input_tokens = count_tokens(prompt)
+        total_output_tokens_by_usage = response.usage.completion_tokens
+
+        
+        input_tokens = response.usage.prompt_tokens
         output_tokens = count_tokens(text)
+        reasoning_tokens = response.usage.completion_tokens - output_tokens
 
         print("input_tokens: ", input_tokens)
         print("output_tokens: ", output_tokens)

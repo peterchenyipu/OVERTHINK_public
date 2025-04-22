@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load data
-df_attack = pd.read_csv('ds7.csv')
-df_def = pd.read_csv('ds7_defense.csv')
+df_attack = pd.read_csv('ds32.csv')
+df_def = pd.read_csv('ds32_defense.csv')
 
 # Baseline and mean total tokens for attacked runs
 baseline_attack = df_attack[df_attack['run_type'] == 'clean'].set_index('question_id')['total_output_tokens']

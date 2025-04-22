@@ -54,13 +54,18 @@ def fetch_wikipedia_article(url):
     return title, article_text
     
 # Function to create prompts
-def create_prompts(question, context, target_context_templates):
+def create_prompts(question, context, target_context_templates, duplicates=0):
     """
     Generate prompts for the original context and multiple target contexts.
     """
     prompts = {
         "original_prompt": f'You are an helpful agent who will answer the following user question "{question}" Use the following retrieved context: "{context}".'
     }
+    # repeat the original prompt
+    for i in range(duplicates):
+        prompts[f"original_prompt_{i}"] = prompts["original_prompt"]
+    
+    
     # print(prompts)
     for i, target_template in enumerate(target_context_templates):
         target_context = target_template + context

@@ -38,7 +38,7 @@ def context_agnostic(dataset, target_context_templates, reasoning_effort, model,
 
         #print(combined_context)
         # Create prompts for all contexts
-        prompts = create_prompts(question, combined_context, target_context_templates)
+        prompts = create_prompts(question, combined_context, target_context_templates, duplicates=5)
 
         system_prompt = None
         if enable_defense:

@@ -225,7 +225,7 @@ def run_command(prompt, model, reasoning_effort='low', system_prompt=None):
         # print(f'prompt: {prompt}', )
         # print('Begin Asking')
         model = model.replace('_', '/')
-        client = OpenAI(api_key="EMPTY", base_url="http://localhost:8008/v1")
+        client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
 
         response = client.chat.completions.create(
             model=model,

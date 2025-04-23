@@ -2,6 +2,8 @@
 import sys
 import pandas as pd
 
+LENGTH_CLEAN = 5
+
 def parse_attack_log(filepath):
     # --- read all lines ---
     with open(filepath, "r") as f:
@@ -62,7 +64,7 @@ def parse_attack_log(filepath):
         qid  = idx // runs_per_sample
         ridx = idx %  runs_per_sample
 
-        if ridx == 0:
+        if ridx < LENGTH_CLEAN:
             run_type = "clean"
         else:
             run_type = "attacked+defended" if is_defended else "attacked"

@@ -2,18 +2,49 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load data
-df_attack = pd.read_csv('ds32.csv')
-df_def = pd.read_csv('ds32_defense.csv')
+df_attack = pd.read_csv('ds7.csv')
+df_def = pd.read_csv('ds7_defense.csv')
 
-# Baseline and mean total tokens for attacked runs
-baseline_attack = df_attack[df_attack['run_type'] == 'clean'].set_index('question_id')['total_output_tokens']
-attack_mean = df_attack[df_attack['run_type'] == 'attacked'].groupby('question_id')['total_output_tokens'].mean()
-percent_attacked = ((attack_mean - baseline_attack) / baseline_attack) * 100
+# ——— Attacked runs ———
 
-# Baseline and mean total tokens for defended runs
-baseline_def = df_def[df_def['run_type'] == 'clean'].set_index('question_id')['total_output_tokens']
-def_mean = df_def[df_def['run_type'] == 'attacked+defended'].groupby('question_id')['total_output_tokens'].mean()
-percent_defended = ((def_mean - baseline_def) / baseline_def) * 100
+# 1) baseline = mean of all clean runs per question
+baseline_attack = (
+    df_attack[df_attack['run_type'] == 'clean']
+    .groupby('question_id')['total_output_tokens']
+    .mean()
+)
+
+# 2) attacked = mean of all attacked runs per question
+attack_mean = (
+    df_attack[df_attack['run_type'] == 'attacked']
+    .groupby('question_id')['total_output_tokens']
+    .mean()
+)
+
+# 3) percent increase
+percent_attacked = (attack_mean - baseline_attack) / baseline_attack * 100
+
+
+
+# ——— Defended runs ———
+
+# 1) baseline = mean of all clean runs per question
+baseline_def = (
+    df_def[df_def['run_type'] == 'clean']
+    .groupby('question_id')['total_output_tokens']
+    .mean()
+)
+
+# 2) defended = mean of all attacked+defended runs per question
+def_mean = (
+    df_def[df_def['run_type'] == 'attacked+defended']
+    .groupby('question_id')['total_output_tokens']
+    .mean()
+)
+
+# 3) percent increase
+percent_defended = (def_mean - baseline_def) / baseline_def * 100
+
 
 # Combine results into a DataFrame
 results = pd.DataFrame({
